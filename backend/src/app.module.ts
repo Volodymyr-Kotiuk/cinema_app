@@ -6,23 +6,22 @@ import { MoviesModule } from './movies/movies.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      isGlobal: true, 
-    }),
+    ConfigModule.forRoot({ isGlobal: true }),
+
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
-        type: 'mysql',
-        host: config.get<string>('DB_HOST'),
-        port: config.get<number>('DB_PORT'),
-        username: config.get<string>('DB_USERNAME'),
-        password: config.get<string>('DB_PASSWORD'),
-        database: config.get<string>('DB_NAME'),
+        type: 'postgres',
+        url: config.get<string>('DATABASE_URL'),
         entities: [Movie],
         synchronize: true,
+        ssl: {
+          rejectUnauthorized: false,
+        },
       }),
     }),
+
     MoviesModule,
   ],
 })

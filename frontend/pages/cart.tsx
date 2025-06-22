@@ -19,7 +19,7 @@ export default function CartPage() {
     localStorage.setItem('cart', JSON.stringify(updatedCart))
 
     try {
-      await axios.patch(`http://localhost:3001/movies/${removedMovie.id}/increase`)
+      await axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/movies/${removedMovie.id}/increase`)
     } catch (err) {
       console.error('Помилка при поверненні місця:', err)
     }
@@ -28,7 +28,7 @@ export default function CartPage() {
   const handleClear = async () => {
     for (const movie of cart) {
       try {
-        await axios.patch(`http://localhost:3001/movies/${movie.id}/increase`)
+        await axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/movies/${movie.id}/increase`)
       } catch (err) {
         console.error('Помилка при поверненні місця:', err)
       }

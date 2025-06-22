@@ -20,7 +20,7 @@ export default function AdminPage() {
   }, [])
 
   const fetchMovies = () => {
-    axios.get<Movie[]>('http://localhost:3001/movies').then((res) => {
+    axios.get<Movie[]>(`${process.env.NEXT_PUBLIC_API_URL}/movies`).then((res) => {
       setMovies(res.data)
     })
   }
@@ -32,7 +32,7 @@ export default function AdminPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
-      await axios.post('http://localhost:3001/movies', {
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/movies`, {
         ...form,
         price: parseFloat(form.price),
         total_seats: parseInt(form.total_seats),
@@ -56,10 +56,11 @@ export default function AdminPage() {
 
   const handleDelete = async (id: number) => {
     if (confirm('Видалити цей фільм?')) {
-      await axios.delete(`http://localhost:3001/movies/${id}`)
+      await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/movies/${id}`)
       fetchMovies()
     }
   }
+
 
   return (
     <div

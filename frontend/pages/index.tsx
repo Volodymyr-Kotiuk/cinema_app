@@ -11,10 +11,10 @@ export default function Home() {
   const router = useRouter()
 
   useEffect(() => {
-    axios.get<Movie[]>('http://localhost:3001/movies').then((res) => {
-      setMovies(res.data)
-    })
-  }, [])
+  axios.get<Movie[]>(`${process.env.NEXT_PUBLIC_API_URL}/movies`).then((res) => {
+    setMovies(res.data)
+  })
+}, [])
 
   const handleBuy = async (movie: Movie) => {
     if (movie.available_seats === 0) return
@@ -24,7 +24,7 @@ export default function Home() {
     localStorage.setItem('cart', JSON.stringify(cart))
 
     try {
-      await axios.patch(`http://localhost:3001/movies/${movie.id}/decrease`)
+      await axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/movies/${movie.id}/decrease`)
       setMovies((prev) =>
         prev.map((m) =>
           m.id === movie.id ? { ...m, available_seats: m.available_seats - 1 } : m

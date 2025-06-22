@@ -11,9 +11,10 @@ export default function MoviePage() {
 
   useEffect(() => {
     if (id) {
-      axios.get<Movie>(`http://localhost:3001/movies/${id}`).then((res) => {
-        setMovie(res.data)
-      })
+      axios
+        .get<Movie>(`${process.env.NEXT_PUBLIC_API_URL}/movies/${id}`)
+        .then((res) => setMovie(res.data))
+        .catch((err) => console.error('Помилка при завантаженні фільму:', err))
     }
   }, [id])
 
@@ -25,7 +26,7 @@ export default function MoviePage() {
       alert(`Квиток на "${movie.title}" додано до корзини`)
 
       try {
-        await axios.patch(`http://localhost:3001/movies/${movie.id}/decrease`)
+        await axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/movies/${movie.id}/decrease`)
         setMovie({ ...movie, available_seats: movie.available_seats - 1 })
       } catch (err) {
         console.error('Помилка оновлення місць:', err)

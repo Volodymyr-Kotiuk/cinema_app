@@ -49,7 +49,7 @@ export default function AdminPage() {
         total_seats: '',
       })
       fetchMovies()
-    } catch (err) {
+    } catch {
       alert('Помилка при додаванні фільму!')
     }
   }
